@@ -1,0 +1,79 @@
+name: {{ fb_name }}
+
+{% if fb_fields is defined %}
+fields:
+  {{ fb_fields | to_nice_yaml }}
+{% endif %}
+
+#================================ Outputs =====================================
+###################### Filebeat Configuration #########################
+#========================== Modules configuration ============================
+filebeat.modules:
+{% if fb_system is defined %}
+#------------------------------- System Module -------------------------------
+- module: system
+{% if fb_system['enable_syslog'] %}
+  syslog:
+    enabled: true
+{% if fb_system['system_var_paths'] is defined %}
+    var.paths: [ {{ fb_system['system_var_paths'] }} ]
+{% endif %}
+{% else %}
+  syslog:
+    enabled: false
+{% endif %}
+{% if fb_system['enable_auth'] %}
+  auth:
+    enabled: true
+{% else %}
+  auth:
+    enabled: false
+{% endif %}
+{% endif %}
+
+#------------------------------- Auditd Module -------------------------------
+{% if fb_auditd is defined %}
+- module: auditd
+{% if fb_auditd['enable_log'] %}
+  log:
+    enabled: true
+{% if fb_auditd['log_var_paths'] is defined %}
+    var.paths: [ {{ fb_auditd['log_var_paths'] }} ]
+{% endif %}
+{% endif %}
+{% endif %}
+
+#=========================== Filebeat prospectors =============================
+#filebeat.prospectors:
+#----------------------------- filebeat output --------------------------------
+{% if fb_output is defined %}
+{% if fb_output['type'] == 'logstash' %}
+output.logstash:
+  # The filebeat hosts
+  hosts: [ {{ fb_output['hosts'] }} ]
+  # Enable SSL support. SSL is automatically enabled, if any SSL setting is set.
+  ssl.enabled: true
+  # Configure SSL verification mode. If `none` is configured, all server hosts
+  # and certificates will be accepted. In this mode, SSL based connections are
+  # susceptible to man-in-the-middle attacks. Use only for testing. Default is
+  # `full`.
+  ssl.verification_mode: {{ fb_ssl_config['verification_mode'] }}
+  # List of supported/valid TLS versions.
+  ssl.supported_protocols: [ {{ fb_ssl_config['supported_protocols'] }} ]
+  # List of root certificates for HTTPS server verifications
+  ssl.certificate_authorities: [ "{{fb_ssl_config['directory']}}/{{ fb_ssl_config['dns'] }}.cacerts" ]
+  # Certificate for SSL client authentication
+  ssl.certificate: "{{fb_ssl_config['directory']}}/{{ fb_ssl_config['dns'] }}.crt"
+  # Client Certificate Key
+  ssl.key: "{{fb_ssl_config['directory']}}/{{ fb_ssl_config['dns'] }}.key"
+{% endif %}
+{% endif %}
+
+#================================ Logging =====================================
+# Sets log level. The default log level is info.
+# Available log levels are: critical, error, warning, info, debug
+#logging.level: debug
+# At debug level, you can selectively enable logging only for some components.
+# To enable all selectors use ["*"]. Examples of other selectors are "beat",
+# "publish", "service".
+#logging.selectors: ["*"]

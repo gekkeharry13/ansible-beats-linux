@@ -1,0 +1,64 @@
+- name: Check if {{pb_ssl_config['directory']}} folder exists
+  file:
+    path: "{{pb_ssl_config['directory']}}"
+    state: directory
+    owner: "{{ pb_user }}"
+    group: "{{ pb_group }}"
+    mode: 0755
+  register: pb_ssl_folder
+
+### Must also check if hash is correct, because it can be an old certificate
+- name: Verify if Beats collectors cert is present
+  stat:
+    path: "{{pb_ssl_config['directory']}}/{{ pb_ssl_config['dns'] }}.crt"
+  become: true
+  become_user: "{{ pb_user }}"
+  register: pb_ssl_cert_present
+  when: pb_ssl_config is defined
+
+- name: Verify if Beats collectors key is present
+  stat:
+    path: "{{pb_ssl_config['directory']}}/{{ pb_ssl_config['dns'] }}.key"
+  become: true
+  become_user: "{{ pb_user }}"
+  register: pb_ssl_key_present
+  when: pb_ssl_config is defined
+
+- name: Copy certificate for Beats collectors
+  copy:
+    src: "{{pb_ssl_config['cert']}}"
+    dest: "{{pb_ssl_config['directory']}}/"
+    owner: "{{ pb_user }}"
+    group: "{{ pb_group }}"
+    mode: 0644
+  become: true
+  when: not pb_ssl_cert_present.stat.exists
+  register: pb_ssl_cert_copied
+
+- name: Copy certificate key for Beats collectors
+  copy:
+    src: "{{pb_ssl_config['key']}}"
+    dest: "{{pb_ssl_config['directory']}}/"
+    owner: "{{ pb_user }}"
+    group: "{{ pb_group }}"
+    mode: 0600
+  become: true
+  when: not pb_ssl_key_present.stat.exists
+  register: pb_ssl_key_copied
+
+- name: Verify if Beats collectors CA cert is present
+  stat:
+    path: "{{pb_ssl_config['cacerts']}}"
+  become: true
+  become_user: "{{ pb_user }}"
+  register: pb_ssl_ca_cert_present
+
+- name: Copy CA certificate to ssl folder
+  become: true
+  copy:
+    src: "{{pb_ssl_config['cacerts']}}"
+    dest: "{{pb_ssl_config['directory']}}/"
+    owner: "{{ pb_user }}"
+    group: "{{ pb_group }}"
+    mode: 0644
+  when: not pb_ssl_ca_cert_present.stat.exists

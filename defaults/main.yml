@@ -1,0 +1,55 @@
+---
+fb_major_version: "6.x"
+fb_version: "6.2.3"
+fb_version_lock: false
+fb_use_repository: true
+fb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+fb_apt_url: "deb https://artifacts.elastic.co/packages/{{ fb_major_version }}/apt stable main"
+fb_apt_url_old: "deb http://packages.elastic.co/elasticsearch/{{ fb_major_version }}/debian stable main"
+fb_start_service: true
+fb_restart_on_change: true
+fb_user: root
+fb_group: root
+#Need to provide default directories
+fb_pid_dir: "/var/run/filebeat"
+fb_conf_dir: "/etc/filebeat"
+fb_data_dirs: "/var/lib/filebeat"
+fb_log_dir: "/var/log/filebeat"
+fb_server_host: "localhost"
+fb_server_name: "localhost"
+fb_server_port: 5044
+fb_ssl_enabled: false
+fb_allow_downgrades: false
+fb_name: "{{ inventory_hostname }}"
+
+pb_major_version: "6.x"
+pb_version: "6.2.3"
+pb_version_lock: false
+pb_use_repository: true
+pb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+pb_apt_url: "deb https://artifacts.elastic.co/packages/{{ pb_major_version }}/apt stable main"
+pb_apt_url_old: "deb http://packages.elastic.co/elasticsearch/{{ pb_major_version }}/debian stable main"
+pb_start_service: true
+pb_restart_on_change: true
+pb_user: root
+pb_group: root
+#Need to provide default directories
+pb_pid_dir: "/var/run/packetbeat"
+pb_conf_dir: "/etc/packetbeat"
+pb_data_dirs: "/var/lib/packetbeat"
+pb_log_dir: "/var/log/packetbeat"
+pb_server_host: "localhost"
+pb_server_name: "localhost"
+pb_server_port: 5044
+pb_ssl_enabled: false
+pb_allow_downgrades: false
+pb_name: "{{ inventory_hostname }}"
+
+# Since ansible 2.2 the following variables need to be defined
+# to allow the role to be conditionally played with a when condition.
+pid_dir: ''
+log_dir: ''
+conf_dir: ''
+data_dirs: ''
+# JVM custom parameters
+pb_jvm_custom_parameters: ''

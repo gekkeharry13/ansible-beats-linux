@@ -1,0 +1,64 @@
+- name: Check if {{fb_ssl_config['directory']}} folder exists
+  file:
+    path: "{{fb_ssl_config['directory']}}"
+    state: directory
+    owner: "{{ fb_user }}"
+    group: "{{ fb_group }}"
+    mode: 0755
+  register: fb_ssl_folder
+
+### Must also check if hash is correct, because it can be an old certificate
+- name: Verify if Beats collectors cert is present
+  stat:
+    path: "{{fb_ssl_config['directory']}}/{{ fb_ssl_config['dns'] }}.crt"
+  become: true
+  become_user: "{{ fb_user }}"
+  register: fb_ssl_cert_present
+  when: fb_ssl_config is defined
+
+- name: Verify if Beats collectors key is present
+  stat:
+    path: "{{fb_ssl_config['directory']}}/{{ fb_ssl_config['dns'] }}.key"
+  become: true
+  become_user: "{{ fb_user }}"
+  register: fb_ssl_key_present
+  when: fb_ssl_config is defined
+
+- name: Copy certificate for Beats collectors
+  copy:
+    src: "{{fb_ssl_config['cert']}}"
+    dest: "{{fb_ssl_config['directory']}}/"
+    owner: "{{ fb_user }}"
+    group: "{{ fb_group }}"
+    mode: 0644
+  become: true
+  when: not fb_ssl_cert_present.stat.exists
+  register: fb_ssl_cert_copied
+
+- name: Copy certificate key for Beats collectors
+  copy:
+    src: "{{fb_ssl_config['key']}}"
+    dest: "{{fb_ssl_config['directory']}}/"
+    owner: "{{ fb_user }}"
+    group: "{{ fb_group }}"
+    mode: 0600
+  become: true
+  when: not fb_ssl_key_present.stat.exists
+  register: fb_ssl_key_copied
+
+- name: Verify if Beats collectors CA cert is present
+  stat:
+    path: "{{fb_ssl_config['cacerts']}}"
+  become: true
+  become_user: "{{ fb_user }}"
+  register: fb_ssl_ca_cert_present
+
+- name: Copy CA certificate to ssl folder
+  become: true
+  copy:
+    src: "{{fb_ssl_config['cacerts']}}"
+    dest: "{{fb_ssl_config['directory']}}/"
+    owner: "{{ fb_user }}"
+    group: "{{ fb_group }}"
+    mode: 0644
+  when: not fb_ssl_ca_cert_present.stat.exists

@@ -1,0 +1,17 @@
+---
+- name: os-specific vars
+  include_vars: "{{ansible_os_family}}.yml"
+  tags:
+      - always
+
+- name: include filebeat-main.yml
+  include: filebeat/filebeat-main.yml
+  tags:
+      - filebeat
+  when: '"filebeat" in enabled_collectors'
+
+- name: include packetbeat-main.yml
+  include: packetbeat/packetbeat-main.yml
+  tags:
+      - filebeat
+  when: '"packetbeat" in enabled_collectors'
