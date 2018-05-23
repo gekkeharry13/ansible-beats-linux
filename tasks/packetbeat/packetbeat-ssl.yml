@@ -11,7 +11,7 @@
 - name: Verify if Beats collectors cert is present
   stat:
     path: "{{pb_ssl_config['directory']}}/{{ pb_ssl_config['dns'] }}.crt"
-  become: true
+  become: yes
   become_user: "{{ pb_user }}"
   register: pb_ssl_cert_present
   when: pb_ssl_config is defined
@@ -19,7 +19,7 @@
 - name: Verify if Beats collectors key is present
   stat:
     path: "{{pb_ssl_config['directory']}}/{{ pb_ssl_config['dns'] }}.key"
-  become: true
+  become: yes
   become_user: "{{ pb_user }}"
   register: pb_ssl_key_present
   when: pb_ssl_config is defined
@@ -31,7 +31,7 @@
     owner: "{{ pb_user }}"
     group: "{{ pb_group }}"
     mode: 0644
-  become: true
+  become: yes
   when: not pb_ssl_cert_present.stat.exists
   register: pb_ssl_cert_copied
 
@@ -42,19 +42,19 @@
     owner: "{{ pb_user }}"
     group: "{{ pb_group }}"
     mode: 0600
-  become: true
+  become: yes
   when: not pb_ssl_key_present.stat.exists
   register: pb_ssl_key_copied
 
 - name: Verify if Beats collectors CA cert is present
   stat:
     path: "{{pb_ssl_config['cacerts']}}"
-  become: true
+  become: yes
   become_user: "{{ pb_user }}"
   register: pb_ssl_ca_cert_present
 
 - name: Copy CA certificate to ssl folder
-  become: true
+  become: yes
   copy:
     src: "{{pb_ssl_config['cacerts']}}"
     dest: "{{pb_ssl_config['directory']}}/"

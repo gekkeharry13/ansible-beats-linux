@@ -25,5 +25,5 @@
 
 - name: Make sure filebeat is started
   service: name=filebeat state=restarted enabled=yes
-  become: true
+  become: yes
   when: fb_start_service

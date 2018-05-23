@@ -25,5 +25,5 @@
 
 - name: Make sure packetbeat is started
   service: name=packetbeat state=restarted enabled=yes
-  become: true
+  become: yes
   when: pb_start_service
