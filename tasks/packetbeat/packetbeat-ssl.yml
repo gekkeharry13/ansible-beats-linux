@@ -5,6 +5,7 @@
     owner: "{{ pb_user }}"
     group: "{{ pb_group }}"
     mode: 0755
+  become: yes
   register: pb_ssl_folder
 
 ### Must also check if hash is correct, because it can be an old certificate

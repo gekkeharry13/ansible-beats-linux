@@ -5,6 +5,7 @@
     owner: "{{ fb_user }}"
     group: "{{ fb_group }}"
     mode: 0755
+  become: yes
   register: fb_ssl_folder
 
 ### Must also check if hash is correct, because it can be an old certificate
