@@ -25,6 +25,10 @@
     - { repo: "{{ pb_apt_url }}", state: "present" }
   when: pb_use_repository
 
+- name: Debian - Remove version lock when upgrading
+  include: packetbeat-Debian-version-unlock.yml
+  when: pb_upgrade
+
 - name: Debian - Ensure packetbeat is installed
   become: yes
   apt: name=packetbeat{% if pb_version is defined and pb_version != "" %}={{ pb_version }}{% endif %} state=present force={{force_install}} allow_unauthenticated={{ 'no' if pb_apt_key else 'yes' }} cache_valid_time=86400

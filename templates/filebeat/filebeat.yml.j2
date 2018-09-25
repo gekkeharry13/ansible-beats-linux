@@ -5,47 +5,26 @@ fields:
   {{ fb_fields | to_nice_yaml }}
 {% endif %}
 
+#============================= Filebeat modules ===============================
+
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+  # Period on which files under path should be checked for changes
+  #reload.period: 10s
+
+#============================= Processors ===============================
+processors:
+- add_host_metadata:
+    netinfo.enabled: true
+
 #================================ Outputs =====================================
-###################### Filebeat Configuration #########################
-#========================== Modules configuration ============================
-filebeat.modules:
-{% if fb_system is defined %}
-#------------------------------- System Module -------------------------------
-- module: system
-{% if fb_system['enable_syslog'] %}
-  syslog:
-    enabled: true
-{% if fb_system['system_var_paths'] is defined %}
-    var.paths: [ {{ fb_system['system_var_paths'] }} ]
-{% endif %}
-{% else %}
-  syslog:
-    enabled: false
-{% endif %}
-{% if fb_system['enable_auth'] %}
-  auth:
-    enabled: true
-{% else %}
-  auth:
-    enabled: false
-{% endif %}
-{% endif %}
 
-#------------------------------- Auditd Module -------------------------------
-{% if fb_auditd is defined %}
-- module: auditd
-{% if fb_auditd['enable_log'] %}
-  log:
-    enabled: true
-{% if fb_auditd['log_var_paths'] is defined %}
-    var.paths: [ {{ fb_auditd['log_var_paths'] }} ]
-{% endif %}
-{% endif %}
-{% endif %}
-
-#=========================== Filebeat prospectors =============================
-#filebeat.prospectors:
-#----------------------------- filebeat output --------------------------------
+#----------------------------- Logstash output --------------------------------
 {% if fb_output is defined %}
 {% if fb_output['type'] == 'logstash' %}
 output.logstash:
