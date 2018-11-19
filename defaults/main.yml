@@ -1,6 +1,10 @@
 ---
+enabled_collectors: 
+      - "filebeat"
+      - "packetbeat"
+
 fb_major_version: "6.x"
-fb_version: "6.2.3"
+fb_version: "6.4.1"
 fb_version_lock: false
 fb_use_repository: true
 fb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
@@ -23,7 +27,7 @@ fb_allow_downgrades: false
 fb_name: "{{ inventory_hostname }}"
 
 pb_major_version: "6.x"
-pb_version: "6.2.3"
+pb_version: "6.4.1"
 pb_version_lock: false
 pb_use_repository: true
 pb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"

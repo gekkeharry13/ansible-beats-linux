@@ -39,26 +39,26 @@ fields:
 
 #================================ Outputs =====================================
 #----------------------------- Logstash output --------------------------------
-{% if pb_output is defined %}
-{% if pb_output['type'] == 'logstash' %}
+{% if output is defined %}
+{% if output['type'] == 'logstash' %}
 output.logstash:
   # The filebeat hosts
-  hosts: [ {{ pb_output['hosts'] }} ]
+  hosts: [ {{ output['hosts'] | join(', ') | quote }} ]
   # Enable SSL support. SSL is automatically enabled, if any SSL setting is set.
   ssl.enabled: true
   # Configure SSL verification mode. If `none` is configured, all server hosts
   # and certificates will be accepted. In this mode, SSL based connections are
   # susceptible to man-in-the-middle attacks. Use only for testing. Default is
   # `full`.
-  ssl.verification_mode: {{ pb_ssl_config['verification_mode'] }}
+  ssl.verification_mode: {{ ssl_config['verification_mode'] }}
   # List of supported/valid TLS versions.
-  ssl.supported_protocols: [ {{ pb_ssl_config['supported_protocols'] }} ]
+  ssl.supported_protocols: [ {{ ssl_config['supported_protocols'] }} ]
   # List of root certificates for HTTPS server verifications
-  ssl.certificate_authorities: [ "{{pb_ssl_config['directory']}}/{{ pb_ssl_config['dns'] }}.cacerts" ]
+  ssl.certificate_authorities: [ "{{ssl_config['directory']}}/antsec.cacerts" ]
   # Certificate for SSL client authentication
-  ssl.certificate: "{{pb_ssl_config['directory']}}/{{ pb_ssl_config['dns'] }}.crt"
+  ssl.certificate: "{{ssl_config['directory']}}/{{ beats_machine_id }}.crt"
   # Client Certificate Key
-  ssl.key: "{{pb_ssl_config['directory']}}/{{ pb_ssl_config['dns'] }}.key"
+  ssl.key: "{{ssl_config['directory']}}/{{ beats_machine_id }}.key"
 {% endif %}
 {% endif %}
 
