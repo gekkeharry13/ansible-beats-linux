@@ -8,17 +8,17 @@
   when: fb_allow_downgrades
 
 - name: Debian - Install apt-transport-https to support https APT downloads
-  become: yes
+  become: true
   apt: name=apt-transport-https state=present
   when: fb_use_repository
 
 - name: Debian - Add Elastic repository key
-  become: yes
+  become: true
   apt_key: url="{{ fb_apt_key }}" state=present
   when: fb_use_repository and fb_apt_key
 
 - name: Debian - Add elastic repository
-  become: yes
+  become: true
   apt_repository: repo={{ item.repo }} state={{ item.state}}
   with_items:
     - { repo: "{{ fb_apt_url_old }}", state: "absent" }
@@ -30,7 +30,7 @@
   when: fb_upgrade
 
 - name: Debian - Ensure filebeat is installed
-  become: yes
+  become: true
   apt: name=filebeat{% if fb_version is defined and fb_version != "" %}={{ fb_version }}{% endif %} state=present force={{force_install}} allow_unauthenticated={{ 'no' if fb_apt_key else 'yes' }} cache_valid_time=86400
   when: fb_use_repository
   register: debian_filebeat_install_from_repo
@@ -45,7 +45,7 @@
   when: not fb_use_repository
 
 - name: Debian - Ensure filebeat is installed from downloaded package
-  become: yes
+  become: true
   apt: deb=/tmp/filebeat-{{ fb_version }}.deb
   when: not fb_use_repository
   register: filebeat_install_from_package

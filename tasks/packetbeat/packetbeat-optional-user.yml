@@ -1,7 +1,7 @@
 ---
 #Add the packetbeat user before installing from packages.
 - name: Ensure optional packetbeat group is created with the correct id.
-  become: yes
+  become: true
   #Restart if these change
   notify: restart packetbeat
   group:
@@ -11,7 +11,7 @@
     gid: "{{ pb_group_id }}"
 
 - name: Ensure optional packetbeat user is created with the correct id.
-  become: yes
+  become: true
   #Restart if these change
   notify: restart packetbeat
   user:

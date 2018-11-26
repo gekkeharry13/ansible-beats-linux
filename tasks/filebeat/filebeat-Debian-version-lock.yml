@@ -1,10 +1,10 @@
 ---
 - name: Debian - hold filebeat version
-  become: yes
+  become: true
   command: apt-mark hold filebeat
   register: hold_filebeat_result
   changed_when: "hold_filebeat_result.stdout != 'filebeat was already set on hold.'"
 - name: Debian - hold filebeat version with aptitude
-  become: yes
+  become: true
   command: aptitude hold filebeat
   register: aptitude_hold_filebeat_result

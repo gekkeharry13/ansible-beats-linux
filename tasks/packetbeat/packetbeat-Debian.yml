@@ -8,17 +8,17 @@
   when: pb_allow_downgrades
 
 - name: Debian - Install apt-transport-https to support https APT downloads
-  become: yes
+  become: true
   apt: name=apt-transport-https state=present
   when: pb_use_repository
 
 - name: Debian - Add Elastic repository key
-  become: yes
+  become: true
   apt_key: url="{{ pb_apt_key }}" state=present
   when: pb_use_repository and pb_apt_key
 
 - name: Debian - Add elastic repository
-  become: yes
+  become: true
   apt_repository: repo={{ item.repo }} state={{ item.state}}
   with_items:
     - { repo: "{{ pb_apt_url_old }}", state: "absent" }
@@ -30,7 +30,7 @@
   when: pb_upgrade
 
 - name: Debian - Ensure packetbeat is installed
-  become: yes
+  become: true
   apt: name=packetbeat{% if pb_version is defined and pb_version != "" %}={{ pb_version }}{% endif %} state=present force={{force_install}} allow_unauthenticated={{ 'no' if pb_apt_key else 'yes' }} cache_valid_time=86400
   when: pb_use_repository
   register: debian_packetbeat_install_from_repo
@@ -45,7 +45,7 @@
   when: not pb_use_repository
 
 - name: Debian - Ensure packetbeat is installed from downloaded package
-  become: yes
+  become: true
   apt: deb=/tmp/packetbeat-{{ pb_version }}.deb
   when: not pb_use_repository
   register: packetbeat_install_from_package

@@ -5,14 +5,14 @@
     owner: "{{ fb_user }}"
     group: "{{ fb_group }}"
     mode: 0755
-  become: yes
+  become: true
   register: fb_ssl_folder
 
 ### Must also check if hash is correct, because it can be an old certificate
 - name: Verify if Beats collectors cert is present
   stat:
     path: "{{ssl_config['directory']}}/{{ beats_machine_id }}.crt"
-  become: yes
+  become: true
   become_user: "{{ fb_user }}"
   register: fb_ssl_cert_present
   when: ssl_config is defined
@@ -20,7 +20,7 @@
 - name: Verify if Beats collectors key is present
   stat:
     path: "{{ssl_config['directory']}}/{{ beats_machine_id }}.key"
-  become: yes
+  become: true
   become_user: "{{ fb_user }}"
   register: fb_ssl_key_present
   when: ssl_config is defined
@@ -32,7 +32,7 @@
     owner: "{{ fb_user }}"
     group: "{{ fb_group }}"
     mode: 0644
-  become: yes
+  become: true
   when: not fb_ssl_cert_present.stat.exists
   register: fb_ssl_cert_copied
 
@@ -43,19 +43,19 @@
     owner: "{{ fb_user }}"
     group: "{{ fb_group }}"
     mode: 0600
-  become: yes
+  become: true
   when: not fb_ssl_key_present.stat.exists
   register: fb_ssl_key_copied
 
 - name: Verify if Beats collectors CA cert is present
   stat:
     path: "{{ssl_config['cacerts']}}"
-  become: yes
+  become: true
   become_user: "{{ fb_user }}"
   register: fb_ssl_ca_cert_present
 
 - name: Copy CA certificate to ssl folder
-  become: yes
+  become: true
   copy:
     src: "{{ssl_config['cacerts']}}"
     dest: "{{ssl_config['directory']}}/"
