@@ -1,0 +1,31 @@
+---
+- name: Ensure libselinux-python on CentOS 6.x
+  become: true
+  yum: name=libselinux-python state=present update_cache=yes
+  when: ( ansible_distribution == "CentOS" ) and ( ansible_distribution_major_version == "6" )
+
+- name: RedHat - add metricbeat repo
+  become: true
+  template: src=elastic.repo.j2 dest=/etc/yum.repos.d/metricbeat-{{ pb_major_version }}.repo
+  when: pb_use_repository
+
+- name: RedHat - include versionlock
+  include: metricbeat-RedHat-version-lock.yml
+  when: pb_version_lock
+
+- name: RedHat - Install metricbeat
+  become: true
+  yum: name=metricbeat{% if pb_version is defined and pb_version != ""  %}-{{ pb_version }}{% endif %} state=present update_cache=yes
+  when: pb_use_repository
+  register: redhat_metricbeat_install_from_repo
+  notify: restart metricbeat
+  until: '"failed" not in redhat_metricbeat_install_from_repo'
+  retries: 5
+  delay: 10
+
+- name: RedHat - Install metricbeat from url
+  become: true
+  yum: name={% if pb_custom_package_url is defined %}{{ pb_custom_package_url }}{% else %}{{ pb_package_url }}-{{ pb_version }}.noarch.rpm{% endif %} state=present
+  when: not pb_use_repository
+  register: metricbeat_install_from_package
+  notify: restart metricbeat

@@ -15,3 +15,9 @@
   tags:
       - filebeat
   when: '"packetbeat" in enabled_collectors'
+
+- name: include metricbeat-main.yml
+  include: metricbeat/metricbeat-main.yml
+  tags:
+      - filebeat
+  when: '"metricbeat" in enabled_collectors'

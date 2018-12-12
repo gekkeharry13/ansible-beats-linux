@@ -2,6 +2,7 @@
 enabled_collectors: 
       - "filebeat"
       - "packetbeat"
+      - "metricbeat"
 
 fb_major_version: "6.x"
 fb_version: "6.4.1"
@@ -48,6 +49,29 @@ pb_server_port: 5044
 pb_ssl_enabled: false
 pb_allow_downgrades: false
 pb_name: "{{ inventory_hostname }}"
+
+mb_major_version: "6.x"
+mb_version: "6.4.1"
+mb_version_lock: false
+mb_use_repository: true
+mb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+mb_apt_url: "deb https://artifacts.elastic.co/packages/{{ mb_major_version }}/apt stable main"
+mb_apt_url_old: "deb http://packages.elastic.co/elasticsearch/{{ mb_major_version }}/debian stable main"
+mb_start_service: true
+mb_restart_on_change: true
+mb_user: root
+mb_group: root
+#Need to provide default directories
+mb_pid_dir: "/var/run/metricbeat"
+mb_conf_dir: "/etc/metricbeat"
+mb_data_dirs: "/var/lib/metricbeat"
+mb_log_dir: "/var/log/metricbeat"
+mb_server_host: "localhost"
+mb_server_name: "localhost"
+mb_server_port: 5044
+mb_ssl_enabled: false
+mb_allow_downgrades: false
+mb_name: "{{ inventory_hostname }}"
 
 # Since ansible 2.2 the following variables need to be defined
 # to allow the role to be conditionally played with a when condition.

@@ -1,0 +1,29 @@
+---
+- name: check-set-parameters
+  include: metricbeat-parameters.yml
+  tags:
+      - always
+
+- name: include metricbeat.yml
+  include: metricbeat.yml
+  tags:
+      - install
+
+- name: include metricbeat-config.yml
+  include: metricbeat-config.yml
+  tags:
+      - config
+
+  #We always execute xpack as we may need to remove features
+- name: include metricbeat-ssl.yml
+  include: metricbeat-ssl.yml
+  tags:
+      - ssl
+
+- name: flush handlers
+  meta: flush_handlers
+
+- name: Make sure metricbeat is started
+  service: name=metricbeat state=restarted enabled=yes
+  become: true
+  when: pb_start_service
