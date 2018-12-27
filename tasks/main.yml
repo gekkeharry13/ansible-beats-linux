@@ -19,5 +19,5 @@
 - name: include metricbeat-main.yml
   include: metricbeat/metricbeat-main.yml
   tags:
-      - filebeat
+      - metricbeat
   when: '"metricbeat" in enabled_collectors'

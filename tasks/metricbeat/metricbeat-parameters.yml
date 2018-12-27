@@ -1,6 +1,6 @@
 # - name: set fact conf_dir
 - name: set fact conf_dir
-  set_fact: conf_dir={{ pb_conf_dir }}
+  set_fact: conf_dir={{ mb_conf_dir }}
 
 #Use systemd for the following distributions:
 #Ubuntu 15 and up

@@ -6,17 +6,17 @@
 
 - name: RedHat - add metricbeat repo
   become: true
-  template: src=elastic.repo.j2 dest=/etc/yum.repos.d/metricbeat-{{ pb_major_version }}.repo
-  when: pb_use_repository
+  template: src=elastic.repo.j2 dest=/etc/yum.repos.d/metricbeat-{{ mb_major_version }}.repo
+  when: mb_use_repository
 
 - name: RedHat - include versionlock
   include: metricbeat-RedHat-version-lock.yml
-  when: pb_version_lock
+  when: mb_version_lock
 
 - name: RedHat - Install metricbeat
   become: true
-  yum: name=metricbeat{% if pb_version is defined and pb_version != ""  %}-{{ pb_version }}{% endif %} state=present update_cache=yes
-  when: pb_use_repository
+  yum: name=metricbeat{% if mb_version is defined and mb_version != ""  %}-{{ mb_version }}{% endif %} state=present update_cache=yes
+  when: mb_use_repository
   register: redhat_metricbeat_install_from_repo
   notify: restart metricbeat
   until: '"failed" not in redhat_metricbeat_install_from_repo'
@@ -25,7 +25,7 @@
 
 - name: RedHat - Install metricbeat from url
   become: true
-  yum: name={% if pb_custom_package_url is defined %}{{ pb_custom_package_url }}{% else %}{{ pb_package_url }}-{{ pb_version }}.noarch.rpm{% endif %} state=present
-  when: not pb_use_repository
+  yum: name={% if mb_custom_package_url is defined %}{{ mb_custom_package_url }}{% else %}{{ mb_package_url }}-{{ mb_version }}.noarch.rpm{% endif %} state=present
+  when: not mb_use_repository
   register: metricbeat_install_from_package
   notify: restart metricbeat

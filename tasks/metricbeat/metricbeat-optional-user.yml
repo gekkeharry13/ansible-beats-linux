@@ -6,9 +6,9 @@
   notify: restart metricbeat
   group:
     state: present
-    name: "{{ pb_group }}"
+    name: "{{ mb_group }}"
     system: yes
-    gid: "{{ pb_group_id }}"
+    gid: "{{ mb_group_id }}"
 
 - name: Ensure optional metricbeat user is created with the correct id.
   become: true
@@ -16,9 +16,9 @@
   notify: restart metricbeat
   user:
     state: present
-    name: "{{ pb_user }}"
+    name: "{{ mb_user }}"
     comment: metricbeat system user
     system: yes
     createhome: no
-    uid: "{{ pb_user_id }}"
-    group: "{{ pb_group }}"
+    uid: "{{ mb_user_id }}"
+    group: "{{ mb_group }}"

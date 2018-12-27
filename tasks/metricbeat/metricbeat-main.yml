@@ -26,4 +26,4 @@
 - name: Make sure metricbeat is started
   service: name=metricbeat state=restarted enabled=yes
   become: true
-  when: pb_start_service
+  when: mb_start_service
