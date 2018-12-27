@@ -13,7 +13,7 @@
 #Copy the config template
 - name: Metricbeat-config - Copy Configuration File
   become: true
-  template: src=metricbeat.yml.j2 dest={{conf_dir}}/metricbeat.yml owner={{ mb_user }} group={{ mb_group }} mode=0644 force=yes
+  template: src=metricbeat/metricbeat.yml.j2 dest={{conf_dir}}/metricbeat.yml owner={{ mb_user }} group={{ mb_group }} mode=0644 force=yes
   register: system_change
   notify: restart metricbeat
 
