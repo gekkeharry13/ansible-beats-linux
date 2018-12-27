@@ -1,4 +1,4 @@
-- name: Check if {{ssl_config['directory']}} folder exists
+- name: Metricbeat-ssl - Check if {{ssl_config['directory']}} folder exists
   file:
     path: "{{ssl_config['directory']}}"
     state: directory
@@ -9,7 +9,7 @@
   register: mb_ssl_folder
 
 ### Must also check if hash is correct, because it can be an old certificate
-- name: Verify if Beats collectors cert is present
+- name: Metricbeat-ssl - Verify if Beats collectors cert is present
   stat:
     path: "{{ssl_config['directory']}}/{{ beats_machine_id }}.crt"
   become: true
@@ -17,7 +17,7 @@
   register: mb_ssl_cert_present
   when: ssl_config is defined
 
-- name: Verify if Beats collectors key is present
+- name: Metricbeat-ssl - Verify if Beats collectors key is present
   stat:
     path: "{{ssl_config['directory']}}/{{ beats_machine_id }}.key"
   become: true
@@ -25,7 +25,7 @@
   register: mb_ssl_key_present
   when: ssl_config is defined
 
-- name: Copy certificate for Beats collectors
+- name: Metricbeat-ssl - Copy certificate for Beats collectors
   copy:
     src: "{{ssl_config['cert']}}"
     dest: "{{ssl_config['directory']}}/"
@@ -36,7 +36,7 @@
   when: not mb_ssl_cert_present.stat.exists
   register: mb_ssl_cert_copied
 
-- name: Copy certificate key for Beats collectors
+- name: Metricbeat-ssl - Copy certificate key for Beats collectors
   copy:
     src: "{{ssl_config['key']}}"
     dest: "{{ssl_config['directory']}}/"
@@ -47,14 +47,14 @@
   when: not mb_ssl_key_present.stat.exists
   register: mb_ssl_key_copied
 
-- name: Verify if Beats collectors CA cert is present
+- name: Metricbeat-ssl - Verify if Beats collectors CA cert is present
   stat:
     path: "{{ssl_config['cacerts']}}"
   become: true
   become_user: "{{ mb_user }}"
   register: mb_ssl_ca_cert_present
 
-- name: Copy CA certificate to ssl folder
+- name: Metricbeat-ssl - Copy CA certificate to ssl folder
   become: true
   copy:
     src: "{{ssl_config['cacerts']}}"

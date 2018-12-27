@@ -1,10 +1,10 @@
 ---
-- name: Debian - hold metricbeat version
+- name: Metricbeat-Debian-version-lock - Debian - hold metricbeat version
   become: true
   command: apt-mark hold metricbeat
   register: hold_metricbeat_result
   changed_when: "hold_metricbeat_result.stdout != 'metricbeat was already set on hold.'"
-- name: Debian - hold metricbeat version with aptitude
+- name: Metricbeat-Debian-version-lock - Debian - hold metricbeat version with aptitude
   become: true
   command: aptitude hold metricbeat
   register: aptitude_hold_metricbeat_result

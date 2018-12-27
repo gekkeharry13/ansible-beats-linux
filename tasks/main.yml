@@ -18,7 +18,7 @@
 - name: include packetbeat-main.yml
   include: packetbeat/packetbeat-main.yml
   tags:
-      - filebeat
+      - packetbeat
   when: '"packetbeat" in enabled_collectors'
 
 - name: include metricbeat-main.yml

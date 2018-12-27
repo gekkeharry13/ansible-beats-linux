@@ -1,6 +1,6 @@
 ---
 #Add the metricbeat user before installing from packages.
-- name: Ensure optional metricbeat group is created with the correct id.
+- name: Metricbeat-optional-user - Ensure optional metricbeat group is created with the correct id.
   become: true
   #Restart if these change
   notify: restart metricbeat
@@ -10,7 +10,7 @@
     system: yes
     gid: "{{ mb_group_id }}"
 
-- name: Ensure optional metricbeat user is created with the correct id.
+- name: Metricbeat-optional-user - Ensure optional metricbeat user is created with the correct id.
   become: true
   #Restart if these change
   notify: restart metricbeat
