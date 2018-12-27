@@ -4,6 +4,11 @@
   tags:
       - always
 
+- name: include prerequisites.yml
+  include: prerequisites.yml
+  tags:
+      - always
+
 - name: include filebeat-main.yml
   include: filebeat/filebeat-main.yml
   tags:

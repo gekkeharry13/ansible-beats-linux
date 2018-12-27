@@ -1,0 +1,4 @@
+- name: Prerequisites - Install aptitude
+  apt:
+    name: aptitude
+    state: present
