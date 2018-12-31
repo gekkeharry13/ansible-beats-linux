@@ -21,10 +21,11 @@ metricbeat.config.modules:
   # Period on which files under path should be checked for changes
   #reload.period: 10s
 
-metricbeat.modules:
+{# metricbeat.modules:
 - module: system
   metricsets:
     - cpu
+    - load
     - filesystem
     - memory
     - network
@@ -32,10 +33,192 @@ metricbeat.modules:
   enabled: true
   period: 10s
   processes: ['.*']
-  cpu_ticks: false
+  cpu_ticks: false #}
+
+- module: system
+  metricsets:
+    - cpu             # CPU usage
+    - load            # CPU load averages
+    - memory          # Memory usage
+    - network         # Network IO
+    - process         # Per process metrics
+    - process_summary # Process summary
+    - uptime          # System Uptime
+    - socket_summary  # Socket summary
+    - core           # Per CPU core usage
+    - diskio         # Disk IO
+    - filesystem     # File system usage for each mountpoint
+    - fsstat         # File system summary metrics
+    #- raid           # Raid
+    #- socket         # Sockets and connection info (linux only)
+  enabled: true
+  period: 10s
+  processes: ['.*']
+
+  # Configure the metric types that are included by these metricsets.
+  cpu.metrics:  ["percentages"]  # The other available options are normalized_percentages and ticks.
+  core.metrics: ["percentages"]  # The other available option is ticks.
+
+  # A list of filesystem types to ignore. The filesystem metricset will not
+  # collect data from filesystems matching any of the specified types, and
+  # fsstats will not include data from these filesystems in its summary stats.
+  # If not set, types associated to virtual filesystems are automatically
+  # added when this information is available in the system (e.g. the list of
+  # `nodev` types in `/proc/filesystem`).
+  #filesystem.ignore_types: []
+
+  # These options allow you to filter out all processes that are not
+  # in the top N by CPU or memory, in order to reduce the number of documents created.
+  # If both the `by_cpu` and `by_memory` options are used, the union of the two sets
+  # is included.
+  #process.include_top_n:
+
+    # Set to false to disable this feature and include all processes
+    #enabled: true
+
+    # How many processes to include from the top by CPU. The processes are sorted
+    # by the `system.process.cpu.total.pct` field.
+    #by_cpu: 0
+
+    # How many processes to include from the top by memory. The processes are sorted
+    # by the `system.process.memory.rss.bytes` field.
+    #by_memory: 0
+
+
+#------------------------------- Apache Module -------------------------------
+- module: apache
+  metricsets: ["status"]
+  period: 10s
+  enabled: true
+
+  # Apache hosts
+  hosts: ["http://127.0.0.1"]
+
+  # Path to server status. Default server-status
+  #server_status_path: "server-status"
+
+  # Username of hosts.  Empty by default
+  #username: username
+
+  # Password of hosts. Empty by default
+  #password: password
+
+#------------------------------- Docker Module -------------------------------
+- module: docker
+  metricsets:
+    - "container"
+    - "cpu"
+    - "diskio"
+    - "healthcheck"
+    - "info"
+    #- "image"
+    - "memory"
+    - "network"
+  hosts: ["unix:///var/run/docker.sock"]
+  period: 10s
+  enabled: true
+
+  # If set to true, replace dots in labels with `_`.
+  #labels.dedot: false
+
+  # If set to true, collects metrics per core.
+  #cpu.cores: true
+
+  # To connect to Docker over TLS you must specify a client and CA certificate.
+  #ssl:
+    #certificate_authority: "/etc/pki/root/ca.pem"
+    #certificate:           "/etc/pki/client/cert.pem"
+    #key:                   "/etc/pki/client/cert.key"
+
+#---------------------------- Elasticsearch Module ---------------------------
+- module: elasticsearch
+  metricsets:
+    - node
+    - node_stats
+    #- index
+    #- index_recovery
+    #- index_summary
+    #- shard
+    #- ml_job
+  period: 10s
+  hosts: ["http://localhost:9200"]
+  #username: "elastic"
+  #password: "changeme"
+  #ssl.certificate_authorities: ["/etc/pki/root/ca.pem"]
+
+  # Set to false to fetch all entries
+  #index_recovery.active_only: true
+
+  #------------------------------- Kibana Module -------------------------------
+- module: kibana
+  metricsets: ["status"]
+  period: 10s
+  hosts: ["localhost:5601"]
+  basepath: ""
+  enabled: true
+
+  #------------------------------ Logstash Module ------------------------------
+- module: logstash
+  metricsets: ["node", "node_stats"]
+  enabled: true
+  period: 10s
+  hosts: ["localhost:9600"]
+
+  #-------------------------------- MySQL Module -------------------------------
+- module: mysql
+  metricsets:
+    - "status"
+  #  - "galera_status"
+  period: 10s
+
+  # Host DSN should be defined as "user:pass@tcp(127.0.0.1:3306)/"
+  # The username and password can either be set in the DSN or using the username
+  # and password config options. Those specified in the DSN take precedence.
+  hosts: ["root:secret@tcp(127.0.0.1:3306)/"]
+
+  # Username of hosts. Empty by default.
+  #username: root
+
+  # Password of hosts. Empty by default.
+  #password: secret
+
+  # By setting raw to true, all raw fields from the status metricset will be added to the event.
+  #raw: false
+
+  #-------------------------------- Nginx Module -------------------------------
+- module: nginx
+  metricsets: ["stubstatus"]
+  enabled: true
+  period: 10s
+
+  # Nginx hosts
+  hosts: ["http://127.0.0.1"]
+
+  # Path to server status. Default server-status
+  server_status_path: "server-status"
+
+  #------------------------------- Windows Module ------------------------------
+- module: windows
+  metricsets: ["perfmon"]
+  enabled: true
+  period: 10s
+  perfmon.ignore_non_existent_counters: true
+  perfmon.counters:
+  #  - instance_label: processor.name
+  #    instance_name: total
+  #    measurement_label: processor.time.total.pct
+  #    query: '\Processor Information(_Total)\% Processor Time'
+
+- module: windows
+  metricsets: ["service"]
+  enabled: true
+  period: 60s
+
+
+
 
 #==================== Elasticsearch template setting ==========================
-
+m
 setup.template.settings:
   index.number_of_shards: 1
   index.codec: best_compression
