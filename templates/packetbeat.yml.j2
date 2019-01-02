@@ -14,8 +14,8 @@ packetbeat.flows:
 #========================== Transaction protocols =============================
 packetbeat.protocols:
   - type: icmp
-  # Enable ICMPv4 and ICMPv6 monitoring. Default: false
-  enabled: true
+    # Enable ICMPv4 and ICMPv6 monitoring. Default: false
+    enabled: true
   - type: dns
     # Configure the ports where to listen for DNS traffic. You can disable
     # the DNS protocol by commenting out the list of ports.
@@ -26,7 +26,7 @@ packetbeat.protocols:
     # include_additionals controls whether or not the dns.additionals field
     # (additional resource records) is added to messages.
     include_additionals: true
- - type: http
+  - type: http
     # Configure the ports where to listen for HTTP traffic. You can disable
     # the HTTP protocol by commenting out the list of ports.
     ports: [80, 8080, 8000, 5000, 8002]
