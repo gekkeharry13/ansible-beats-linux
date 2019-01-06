@@ -81,3 +81,22 @@ conf_dir: ''
 data_dirs: ''
 # JVM custom parameters
 pb_jvm_custom_parameters: ''
+
+mb_nginx_host: http://127.0.0.1
+mb_nginx_period: 10s
+mb_nginx_server_status: server-status
+
+mb_mysql_period: 10s
+mb_mysql_host: root:secret@tcp(127.0.0.1:3306)/
+mb_mysql_username: root
+mb_mysql_password: secret
+
+mb_apache_period: 10s
+mb_apache_host: http://127.0.0.1
+mb_apache_server_status: server-status
+mb_apache_username: root
+mb_apache_password: secret
+
+mb_docker_host: unix:///var/run/docker.sock
+mb_docker_period: 10s
+          
