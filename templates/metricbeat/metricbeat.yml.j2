@@ -21,20 +21,7 @@ metricbeat.config.modules:
   # Period on which files under path should be checked for changes
   #reload.period: 10s
 
-{# metricbeat.modules:
-- module: system
-  metricsets:
-    - cpu
-    - load
-    - filesystem
-    - memory
-    - network
-    - process
-  enabled: true
-  period: 10s
-  processes: ['.*']
-  cpu_ticks: false #}
-
+metricbeat.modules:
 - module: system
   metricsets:
     - cpu             # CPU usage
@@ -44,7 +31,6 @@ metricbeat.config.modules:
     - process         # Per process metrics
     - process_summary # Process summary
     - uptime          # System Uptime
-    - socket_summary  # Socket summary
     - core           # Per CPU core usage
     - diskio         # Disk IO
     - filesystem     # File system usage for each mountpoint
@@ -86,25 +72,25 @@ metricbeat.config.modules:
 
 
 #------------------------------- Apache Module -------------------------------
-- module: apache
+ - module: apache
   metricsets: ["status"]
-  period: 10s
+  period: {{ mb_apache_period }}
   enabled: true
 
   # Apache hosts
-  hosts: ["http://127.0.0.1"]
+  hosts: ["{{ mb_apache_host }}"]
 
   # Path to server status. Default server-status
-  #server_status_path: "server-status"
+  server_status_path: "{{ mb_apache_server_status }}"
 
   # Username of hosts.  Empty by default
-  #username: username
+  username: {{ mb_apache_username }}
 
   # Password of hosts. Empty by default
-  #password: password
+  password: {{ mb_apache_password }}
 
 #------------------------------- Docker Module -------------------------------
-- module: docker
+ - module: docker
   metricsets:
     - "container"
     - "cpu"
@@ -114,8 +100,8 @@ metricbeat.config.modules:
     #- "image"
     - "memory"
     - "network"
-  hosts: ["unix:///var/run/docker.sock"]
-  period: 10s
+  hosts: ["{{ mb_docker_host }}"]
+  period: {{ mb_docker_period }}
   enabled: true
 
   # If set to true, replace dots in labels with `_`.
@@ -128,131 +114,40 @@ metricbeat.config.modules:
   #ssl:
     #certificate_authority: "/etc/pki/root/ca.pem"
     #certificate:           "/etc/pki/client/cert.pem"
-    #key:                   "/etc/pki/client/cert.key"
+    #key:                   "/etc/pki/client/cert.key" #
 
-#---------------------------- Elasticsearch Module ---------------------------
-- module: elasticsearch
-  metricsets:
-    - node
-    - node_stats
-    #- index
-    #- index_recovery
-    #- index_summary
-    #- shard
-    #- ml_job
-  period: 10s
-  hosts: ["http://localhost:9200"]
-  #username: "elastic"
-  #password: "changeme"
-  #ssl.certificate_authorities: ["/etc/pki/root/ca.pem"]
-
-  # Set to false to fetch all entries
-  #index_recovery.active_only: true
-
-  #------------------------------- Kibana Module -------------------------------
-- module: kibana
-  metricsets: ["status"]
-  period: 10s
-  hosts: ["localhost:5601"]
-  basepath: ""
-  enabled: true
-
-  #------------------------------ Logstash Module ------------------------------
-- module: logstash
-  metricsets: ["node", "node_stats"]
-  enabled: true
-  period: 10s
-  hosts: ["localhost:9600"]
-
-  #-------------------------------- MySQL Module -------------------------------
+#-------------------------------- MySQL Module -------------------------------
 - module: mysql
   metricsets:
     - "status"
   #  - "galera_status"
-  period: 10s
+  period: {{ mb_mysql_period }}
 
   # Host DSN should be defined as "user:pass@tcp(127.0.0.1:3306)/"
   # The username and password can either be set in the DSN or using the username
   # and password config options. Those specified in the DSN take precedence.
-  hosts: ["root:secret@tcp(127.0.0.1:3306)/"]
+  hosts: [ "{{ mb_mysql_host }}" ]
 
   # Username of hosts. Empty by default.
-  #username: root
+  username: {{ mb_mysql_username }}
 
   # Password of hosts. Empty by default.
-  #password: secret
+  password: {{ mb_mysql_password }}
 
   # By setting raw to true, all raw fields from the status metricset will be added to the event.
   #raw: false
 
-  #-------------------------------- Nginx Module -------------------------------
+#-------------------------------- Nginx Module -------------------------------
 - module: nginx
   metricsets: ["stubstatus"]
   enabled: true
-  period: 10s
+  period: {{ mb_nginx_period }}
 
   # Nginx hosts
-  hosts: ["http://127.0.0.1"]
+  hosts: ["{{ mb_nginx_host }}"]
 
   # Path to server status. Default server-status
-  server_status_path: "server-status"
-
-  #------------------------------- Windows Module ------------------------------
-- module: windows
-  metricsets: ["perfmon"]
-  enabled: true
-  period: 10s
-  perfmon.ignore_non_existent_counters: true
-  perfmon.counters:
-  #  - instance_label: processor.name
-  #    instance_name: total
-  #    measurement_label: processor.time.total.pct
-  #    query: '\Processor Information(_Total)\% Processor Time'
-
-- module: windows
-  metricsets: ["service"]
-  enabled: true
-  period: 60s
-
-
-
-
-#==================== Elasticsearch template setting ==========================
-m
-setup.template.settings:
-  index.number_of_shards: 1
-  index.codec: best_compression
-  #_source.enabled: false
-
-
-#============================== Dashboards =====================================
-# These settings control loading the sample dashboards to the Kibana index. Loading
-# the dashboards is disabled by default and can be enabled either by setting the
-# options here, or by using the `-setup` CLI flag or the `setup` command.
-#setup.dashboards.enabled: false
-
-# The URL from where to download the dashboards archive. By default this URL
-# has a value which is computed based on the Beat name and version. For released
-# versions, this URL points to the dashboard archive on the artifacts.elastic.co
-# website.
-#setup.dashboards.url:
-
-#============================== Kibana =====================================
-
-# Starting with Beats version 6.0.0, the dashboards are loaded via the Kibana API.
-# This requires a Kibana endpoint configuration.
-setup.kibana:
-
-  # Kibana Host
-  # Scheme and port can be left out and will be set to the default (http and 5601)
-  # In case you specify and additional path, the scheme is required: http://localhost:5601/path
-  # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
-  #host: "localhost:5601"
-
-  # Kibana Space ID
-  # ID of the Kibana Space into which the dashboards should be loaded. By default,
-  # the Default Space will be used.
-  #space.id:
+  server_status_path: "{{ mb_nginx_server_status }}"
 
 #================================ Outputs =====================================
 
