@@ -21,8 +21,7 @@ metricbeat.config.modules:
   # Period on which files under path should be checked for changes
   #reload.period: 10s
 
-{% if mb_modules is defined %}
-{% if mb_modules['type'] == 'system' %}
+{% if "system" in mb_modules %}
 
 #------------------------------- System Module -------------------------------
 
@@ -76,10 +75,8 @@ metricbeat.modules:
     #by_memory: 0
 
 {% endif %}
-{% endif %}
 
-{% if mb_modules is defined %}
-{% if mb_modules['type'] == 'apache' %}
+{% if "apache" in mb_modules %}
 
 #------------------------------- Apache Module -------------------------------
  - module: apache
@@ -100,8 +97,8 @@ metricbeat.modules:
   password: {{ mb_apache_password }}
 
 {% endif %}
-{% endif %}
 
+{% if "docker" in mb_modules %}
 
 #------------------------------- Docker Module -------------------------------
  - module: docker
@@ -130,6 +127,10 @@ metricbeat.modules:
     #certificate:           "/etc/pki/client/cert.pem"
     #key:                   "/etc/pki/client/cert.key" #
 
+{% endif %}
+
+{% if "mysql" in mb_modules %}
+
 #-------------------------------- MySQL Module -------------------------------
 - module: mysql
   metricsets:
@@ -151,6 +152,10 @@ metricbeat.modules:
   # By setting raw to true, all raw fields from the status metricset will be added to the event.
   #raw: false
 
+{% endif %}
+
+{% if "nginx" in mb_modules %}
+
 #-------------------------------- Nginx Module -------------------------------
 - module: nginx
   metricsets: ["stubstatus"]
@@ -163,14 +168,16 @@ metricbeat.modules:
   # Path to server status. Default server-status
   server_status_path: "{{ mb_nginx_server_status }}"
 
+{% endif %}
+
 #================================ Outputs =====================================
 
 # Configure what output to use when sending the data collected by the beat.
 
-#----------------------------- Logstash output --------------------------------
-
 {% if output is defined %}
 {% if output['type'] == 'logstash' %}
+
+#----------------------------- Logstash output --------------------------------
 output.logstash:
   # The filebeat hosts
   hosts: [ {{ output['hosts'] | join(', ') | quote }} ]
