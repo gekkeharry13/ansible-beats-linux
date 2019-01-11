@@ -44,8 +44,6 @@ output.logstash:
   ssl.certificate: "{{ssl_config['directory']}}/{{ beats_machine_id }}.crt"
   # Client Certificate Key
   ssl.key: "{{ssl_config['directory']}}/{{ beats_machine_id }}.key"
-{% endif %}
-{% endif %}
 
 #================================ Logging =====================================
 # Sets log level. The default log level is info.

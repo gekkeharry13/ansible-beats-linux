@@ -21,6 +21,11 @@ metricbeat.config.modules:
   # Period on which files under path should be checked for changes
   #reload.period: 10s
 
+{% if mb_modules is defined %}
+{% if mb_modules['type'] == 'system' %}
+
+#------------------------------- System Module -------------------------------
+
 metricbeat.modules:
 - module: system
   metricsets:
@@ -70,6 +75,11 @@ metricbeat.modules:
     # by the `system.process.memory.rss.bytes` field.
     #by_memory: 0
 
+{% endif %}
+{% endif %}
+
+{% if mb_modules is defined %}
+{% if mb_modules['type'] == 'apache' %}
 
 #------------------------------- Apache Module -------------------------------
  - module: apache
@@ -88,6 +98,10 @@ metricbeat.modules:
 
   # Password of hosts. Empty by default
   password: {{ mb_apache_password }}
+
+{% endif %}
+{% endif %}
+
 
 #------------------------------- Docker Module -------------------------------
  - module: docker
