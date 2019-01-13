@@ -7,3 +7,5 @@
 Ansible role for 6.x/5.x filebeat.  Currently this works on Debian and RedHat based linux systems.  Tested platforms are:
 
 * Debian 9
+
+test
