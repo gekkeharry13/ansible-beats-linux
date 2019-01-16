@@ -32,17 +32,17 @@ metricbeat.modules:
     - load            # CPU load averages
     - memory          # Memory usage
     - network         # Network IO
-    - process         # Per process metrics
-    - process_summary # Process summary
+    #- process         # Per process metrics
+    #- process_summary # Process summary
     - uptime          # System Uptime
-    - core           # Per CPU core usage
-    - diskio         # Disk IO
+    #- core           # Per CPU core usage
+    #- diskio         # Disk IO
     - filesystem     # File system usage for each mountpoint
-    - fsstat         # File system summary metrics
+    #- fsstat         # File system summary metrics
     #- raid           # Raid
     #- socket         # Sockets and connection info (linux only)
   enabled: true
-  period: 10s
+  period: {{ mb_system_period }}
   processes: ['.*']
 
   # Configure the metric types that are included by these metricsets.
