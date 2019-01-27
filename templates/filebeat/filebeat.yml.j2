@@ -29,6 +29,10 @@ filebeat.config.modules:
 processors:
 - add_host_metadata:
     netinfo.enabled: true
+{% if fb_docker_input %}
+- add_docker_metadata:
+    host: "unix:///var/run/docker.sock"
+{% endif %}
 
 #================================ Outputs =====================================
 #----------------------------- Logstash output --------------------------------
