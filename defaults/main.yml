@@ -26,6 +26,7 @@ fb_server_port: 5044
 fb_ssl_enabled: false
 fb_allow_downgrades: false
 fb_name: "{{ inventory_hostname }}"
+fb_docker_input: false
 
 pb_major_version: "6.x"
 pb_version: "6.4.1"
