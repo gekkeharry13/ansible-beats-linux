@@ -11,7 +11,7 @@
 #     - "{{conf_dir}}"
 
 #Copy the config template
-- name: Copy Configuration File
+- name: Filebeat-config - Copy Configuration File
   become: true
   template: src=filebeat/filebeat.yml.j2 dest={{conf_dir}}/filebeat.yml owner={{ fb_user }} group={{ fb_group }} mode=0644 force=yes
   register: system_change

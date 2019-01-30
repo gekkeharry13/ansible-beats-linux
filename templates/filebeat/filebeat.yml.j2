@@ -5,6 +5,14 @@ fields:
   {{ fb_fields | to_nice_yaml }}
 {% endif %}
 
+#============================= Filebeat inputs ===============================
+{% if fb_docker_input %}
+filebeat.inputs:
+  - type: docker
+    containers.ids: '*'
+    cri.parse_flags: true
+{% endif %}
+
 #============================= Filebeat modules ===============================
 
 filebeat.config.modules:
@@ -21,6 +29,10 @@ filebeat.config.modules:
 processors:
 - add_host_metadata:
     netinfo.enabled: true
+{% if fb_docker_input %}
+- add_docker_metadata:
+    host: "unix:///var/run/docker.sock"
+{% endif %}
 
 #================================ Outputs =====================================
 #----------------------------- Logstash output --------------------------------

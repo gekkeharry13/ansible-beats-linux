@@ -20,3 +20,11 @@
     - pb_restart_on_change
     - pb_start_service
   register: pb_restarted
+
+- name: restart metricbeat
+  become: true
+  service: name=metricbeat state=restarted enabled=yes
+  when:
+    - mb_restart_on_change
+    - mb_start_service
+  register: mb_restarted

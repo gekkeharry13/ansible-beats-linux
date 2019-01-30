@@ -4,6 +4,11 @@
   tags:
       - always
 
+- name: include prerequisites.yml
+  include: prerequisites.yml
+  tags:
+      - always
+
 - name: include filebeat-main.yml
   include: filebeat/filebeat-main.yml
   tags:
@@ -13,5 +18,11 @@
 - name: include packetbeat-main.yml
   include: packetbeat/packetbeat-main.yml
   tags:
-      - filebeat
+      - packetbeat
   when: '"packetbeat" in enabled_collectors'
+
+- name: include metricbeat-main.yml
+  include: metricbeat/metricbeat-main.yml
+  tags:
+      - metricbeat
+  when: '"metricbeat" in enabled_collectors'
