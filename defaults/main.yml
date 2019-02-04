@@ -74,8 +74,12 @@ mb_server_port: 5044
 mb_ssl_enabled: false
 mb_allow_downgrades: false
 mb_name: "{{ inventory_hostname }}"
-mb_docker_host: localhost
+mb_system_period: 60s
+mb_apache_period: 60s
+mb_mysql_period: 60s
+mb_nginx_period: 60s
 mb_docker_period: 60s
+mb_docker_host: localhost
 
 # Since ansible 2.2 the following variables need to be defined
 # to allow the role to be conditionally played with a when condition.
