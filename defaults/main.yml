@@ -54,6 +54,7 @@ pb_name: "{{ inventory_hostname }}"
 mb_major_version: "6.x"
 mb_version: "6.4.1"
 mb_version_lock: false
+mb_upgrade: false
 mb_use_repository: true
 mb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
 mb_apt_url: "deb https://artifacts.elastic.co/packages/{{ mb_major_version }}/apt stable main"
