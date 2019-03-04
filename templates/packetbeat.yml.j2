@@ -13,9 +13,6 @@ packetbeat.flows:
   period: 60s
 #========================== Transaction protocols =============================
 packetbeat.protocols:
-  - type: icmp
-    # Enable ICMPv4 and ICMPv6 monitoring. Default: false
-    enabled: true
   - type: dns
     # Configure the ports where to listen for DNS traffic. You can disable
     # the DNS protocol by commenting out the list of ports.
@@ -31,8 +28,8 @@ packetbeat.protocols:
     # the HTTP protocol by commenting out the list of ports.
     ports: [80, 8080, 8000, 5000, 8002]
   - type: tls
+    ports: [443, 8443]
     send_certificates: true
-    include_raw_certificates: true
 #================================ General =====================================
 name: {{ pb_name }}
 
