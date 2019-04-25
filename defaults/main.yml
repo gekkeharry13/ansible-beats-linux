@@ -5,7 +5,7 @@ enabled_collectors:
       - "metricbeat"
 
 fb_major_version: "6.x"
-fb_version: "6.4.1"
+fb_version: "6.6.1"
 fb_version_lock: false
 fb_use_repository: true
 fb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
@@ -29,7 +29,7 @@ fb_name: "{{ inventory_hostname }}"
 fb_docker_input: false
 
 pb_major_version: "6.x"
-pb_version: "6.4.1"
+pb_version: "6.6.1"
 pb_version_lock: false
 pb_use_repository: true
 pb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
@@ -52,8 +52,9 @@ pb_allow_downgrades: false
 pb_name: "{{ inventory_hostname }}"
 
 mb_major_version: "6.x"
-mb_version: "6.4.1"
+mb_version: "6.6.1"
 mb_version_lock: false
+mb_upgrade: false
 mb_use_repository: true
 mb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
 mb_apt_url: "deb https://artifacts.elastic.co/packages/{{ mb_major_version }}/apt stable main"
@@ -83,21 +84,23 @@ data_dirs: ''
 # JVM custom parameters
 pb_jvm_custom_parameters: ''
 
+mb_system_period: 60s
+
 mb_nginx_host: http://127.0.0.1
-mb_nginx_period: 10s
+mb_nginx_period: 60s
 mb_nginx_server_status: server-status
 
-mb_mysql_period: 10s
+mb_mysql_period: 60s
 mb_mysql_host: root:secret@tcp(127.0.0.1:3306)/
 mb_mysql_username: root
 mb_mysql_password: secret
 
-mb_apache_period: 10s
+mb_apache_period: 60s
 mb_apache_host: http://127.0.0.1
 mb_apache_server_status: server-status
 mb_apache_username: root
 mb_apache_password: secret
 
 mb_docker_host: unix:///var/run/docker.sock
-mb_docker_period: 10s
+mb_docker_period: 60s
           

@@ -101,14 +101,14 @@ metricbeat.modules:
 {% if "docker" in mb_modules %}
 
 #------------------------------- Docker Module -------------------------------
- - module: docker
+- module: docker
   metricsets:
     - "container"
     - "cpu"
     - "diskio"
     - "healthcheck"
     - "info"
-    #- "image"
+    - "image"
     - "memory"
     - "network"
   hosts: ["{{ mb_docker_host }}"]
