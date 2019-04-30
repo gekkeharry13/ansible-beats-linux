@@ -22,7 +22,6 @@ fb_data_dirs: "/var/lib/filebeat"
 fb_log_dir: "/var/log/filebeat"
 fb_server_host: "localhost"
 fb_server_name: "localhost"
-fb_server_port: 5044
 fb_ssl_enabled: false
 fb_allow_downgrades: false
 fb_name: "{{ inventory_hostname }}"
@@ -46,7 +45,6 @@ pb_data_dirs: "/var/lib/packetbeat"
 pb_log_dir: "/var/log/packetbeat"
 pb_server_host: "localhost"
 pb_server_name: "localhost"
-pb_server_port: 5044
 pb_ssl_enabled: false
 pb_allow_downgrades: false
 pb_name: "{{ inventory_hostname }}"
@@ -70,7 +68,6 @@ mb_data_dirs: "/var/lib/metricbeat"
 mb_log_dir: "/var/log/metricbeat"
 mb_server_host: "localhost"
 mb_server_name: "localhost"
-mb_server_port: 5044
 mb_ssl_enabled: false
 mb_allow_downgrades: false
 mb_name: "{{ inventory_hostname }}"
