@@ -44,7 +44,7 @@ fields:
 {% if output['type'] == 'logstash' %}
 output.logstash:
   # The filebeat hosts
-  hosts: [ {{ output['hosts'] | join(', ') | quote }} ]
+  hosts: [ {{ '\"' + output['hosts']|join('\", \"') + '\"' }} ]
   # Enable SSL support. SSL is automatically enabled, if any SSL setting is set.
   ssl.enabled: true
   # Configure SSL verification mode. If `none` is configured, all server hosts
