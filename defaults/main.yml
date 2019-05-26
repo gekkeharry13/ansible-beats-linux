@@ -24,7 +24,7 @@ fb_server_host: "localhost"
 fb_server_name: "localhost"
 fb_ssl_enabled: false
 fb_allow_downgrades: false
-fb_name: "{{ inventory_hostname }}"
+fb_name: "collector"
 fb_docker_input: false
 
 pb_major_version: "7.x"
@@ -47,7 +47,7 @@ pb_server_host: "localhost"
 pb_server_name: "localhost"
 pb_ssl_enabled: false
 pb_allow_downgrades: false
-pb_name: "{{ inventory_hostname }}"
+pb_name: "collector"
 
 mb_major_version: "7.x"
 mb_version: "7.0.1"
@@ -70,7 +70,7 @@ mb_server_host: "localhost"
 mb_server_name: "localhost"
 mb_ssl_enabled: false
 mb_allow_downgrades: false
-mb_name: "{{ inventory_hostname }}"
+mb_name: "collector"
 
 # Since ansible 2.2 the following variables need to be defined
 # to allow the role to be conditionally played with a when condition.

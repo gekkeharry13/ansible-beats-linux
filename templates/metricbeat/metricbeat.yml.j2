@@ -193,9 +193,9 @@ output.logstash:
   # List of root certificates for HTTPS server verifications
   ssl.certificate_authorities: [ "{{ssl_config['directory']}}/antsec.cacerts" ]
   # Certificate for SSL client authentication
-  ssl.certificate: "{{ssl_config['directory']}}/{{ beats_machine_id }}.crt"
+  ssl.certificate: "{{ssl_config['directory']}}/{{ beats_customer_id }}.crt"
   # Client Certificate Key
-  ssl.key: "{{ssl_config['directory']}}/{{ beats_machine_id }}.key"
+  ssl.key: "{{ssl_config['directory']}}/{{ beats_customer_id }}.key"
 {% endif %}
 {% endif %}
 
