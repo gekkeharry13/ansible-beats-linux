@@ -1,42 +1,55 @@
 # ansible-beats-linux
 
-**THIS ROLE IS UNDER ACTIVE DEVELOPMENT AND IS NOT SUITABLE FOR USAGE IN PRODUCTION!!! .**
+**AntSec Collector Pack**
 
-**THIS ROLE IS FOR 6.x**
+**THIS ROLE IS FOR 7.x**
 
-Ansible role for 6.x/5.x filebeat.  Currently this works on Debian and RedHat based linux systems.  Tested platforms are:
+**If you encounter unexpected behaviour, please contact us**
+This is the AntSec Ansible role for 7.x beats.  Currently this works on Debian based linux systems.  Tested platforms are:
 
 * Debian 9
 
+** Using the role **
+Place the received configuration in a folder (in this example "beats-ssl"). Do Not change the names of these files
+Configure the default settings in your playbook:
 
-test
-Metricbeat configuration values:
 ```
-mb_version_lock: false
-mb_upgrade: false
-mb_version: "6.4.1"
-mb_name: "as19376105871-1604810"
-mb_fields:
-hc_src_ip: "{{ ansible_default_ipv4.address }}"
-mb_modules:
-  - "system"
-  - "apache"
-  - "docker"
-  - "mysql"
-  - "nginx"
-mb_system_period: 10s
-mb_nginx_host: http://127.0.0.1
-mb_nginx_period: 10s
-mb_nginx_server_status: server-status
-mb_mysql_period: 10s
-mb_mysql_host: root:secret@tcp(127.0.0.1:3306)/
-mb_mysql_username: root
-mb_mysql_password: secret-hostsfile
-mb_apache_period: 10s
-mb_apache_host: http://127.0.0.1
-mb_apache_server_status: server-status
-mb_apache_username: root
-mb_apache_password: secret
-mb_docker_host: unix:///var/run/docker.sock
-mb_docker_period: 10s
+- role: beats-linux
+  beats_customer_id: <customer_id received from AntSec>
+  enabled_collectors: 
+      - "filebeat"
+      - "packetbeat"
+      - "metricbeat"
+    mb_version_lock: true 
+    mb_upgrade: false
+    mb_major_version: "7.x"
+    mb_version: "7.0.1"
+    mb_modules:
+      - "system"
+    fb_version_lock: true
+    fb_upgrade: false
+    fb_major_version: "7.x"
+    fb_version: "7.0.1"
+    fb_system:
+      enable_syslog: true
+      enable_auth: true
+    pb_version_lock: true
+    pb_upgrade: false
+    pb_major_version: "7.x"
+    pb_version: "7.0.1"
+    output:
+      type: logstash
+      hosts:
+        - "<host>:<port>"
+    ssl_config:
+      directory: "/etc/ssl/as-collectors"
+      verification_mode: full
+      supported_protocols: TLSv1.2
+      cert: "beats-ssl/{{ beats_customer_id }}.crt"
+      key: "beats-ssl/{{ beats_customer_id }}.key"
+      cacerts: "beats-ssl/antsec.cacerts"
+    tags: 
+      - deploy_collectors
 ```
+
+If you require a specific configuration, please contact us.
