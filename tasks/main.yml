@@ -26,3 +26,9 @@
   tags:
       - metricbeat
   when: '"metricbeat" in enabled_collectors'
+
+- name: include auditbeat-main.yml
+  include: auditbeat/auditbeat-main.yml
+  tags:
+      - auditbeat
+  when: '"auditbeat" in enabled_collectors'
