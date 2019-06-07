@@ -39,7 +39,7 @@ auditbeat.modules:
     -a always,exit -F arch=b64 -S open,truncate,ftruncate,creat,openat,open_by_handle_at -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -F key=access
     -a always,exit -F arch=b64 -S open,truncate,ftruncate,creat,openat,open_by_handle_at -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -F key=access
 
-    {# # Self Auditing ---------------------------------------------------------------
+    # Self Auditing ---------------------------------------------------------------
 
     ## Audit the audit logs
     ### Successful and unsuccessful attempts to read information from the audit records
@@ -313,7 +313,7 @@ auditbeat.modules:
 
     ## Privilege Abuse
     ### The purpose of this rule is to detect when an admin may be abusing power by looking in user's home dir.
-    -a always,exit -F dir=/home -F uid=0 -F auid>=1000 -F auid!=4294967295 -C auid!=obj_uid -k power_abuse #}
+    -a always,exit -F dir=/home -F uid=0 -F auid>=1000 -F auid!=4294967295 -C auid!=obj_uid -k power_abuse
 {% endif %}
 
 {% if "file_integrity" in ab_modules %}
