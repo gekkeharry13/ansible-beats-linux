@@ -26,6 +26,7 @@ fb_ssl_enabled: false
 fb_allow_downgrades: false
 fb_name: "collector"
 fb_docker_input: false
+fb_kubernetes_metadata: false
 
 pb_major_version: "7.x"
 pb_version: "7.0.1"
@@ -72,6 +73,29 @@ mb_ssl_enabled: false
 mb_allow_downgrades: false
 mb_name: "collector"
 
+ab_major_version: "7.x"
+ab_version: "7.0.1"
+ab_version_lock: false
+ab_upgrade: false
+ab_use_repository: true
+ab_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+ab_apt_url: "deb https://artifacts.elastic.co/packages/{{ ab_major_version }}/apt stable main"
+ab_apt_url_old: "deb http://packages.elastic.co/elasticsearch/{{ ab_major_version }}/debian stable main"
+ab_start_service: true
+ab_restart_on_change: true
+ab_user: root
+ab_group: root
+#Need to provide default directories
+ab_pid_dir: "/var/run/auditbeat"
+ab_conf_dir: "/etc/auditbeat"
+ab_data_dirs: "/var/lib/auditbeat"
+ab_log_dir: "/var/log/auditbeat"
+ab_server_host: "localhost"
+ab_server_name: "localhost"
+ab_ssl_enabled: false
+ab_allow_downgrades: false
+ab_name: "collector"
+
 # Since ansible 2.2 the following variables need to be defined
 # to allow the role to be conditionally played with a when condition.
 pid_dir: ''
@@ -100,4 +124,6 @@ mb_apache_password: secret
 
 mb_docker_host: unix:///var/run/docker.sock
 mb_docker_period: 60s
-          
+
+mb_kubernetes_host: localhost:10255
+mb_kubernetes_period: 60s

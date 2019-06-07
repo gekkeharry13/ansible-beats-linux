@@ -28,3 +28,11 @@
     - mb_restart_on_change
     - mb_start_service
   register: mb_restarted
+
+- name: restart auditbeat
+  become: true
+  service: name=auditbeat state=restarted enabled=yes
+  when:
+    - ab_restart_on_change
+    - ab_start_service
+  register: ab_restarted

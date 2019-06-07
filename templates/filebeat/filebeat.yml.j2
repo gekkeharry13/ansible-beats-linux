@@ -29,9 +29,12 @@ filebeat.config.modules:
 processors:
 - add_host_metadata:
     netinfo.enabled: true
-{% if fb_docker_input %}
+{% if fb_docker_input and not fb_kubernetes_metadata %}
 - add_docker_metadata:
     host: "unix:///var/run/docker.sock"
+{% else if fb_docker_input and fb_kubernetes_metadata %}
+- add_kubernetes_metadata:
+    in_cluster: false
 {% endif %}
 
 #================================ Outputs =====================================
@@ -67,3 +70,5 @@ output.logstash:
 # To enable all selectors use ["*"]. Examples of other selectors are "beat",
 # "publish", "service".
 #logging.selectors: ["*"]
+
+logging.metrics.period: 600s

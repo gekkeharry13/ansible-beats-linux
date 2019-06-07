@@ -5,7 +5,7 @@ allow_duplicates: yes
 galaxy_info:
   author: Jeffrey Everling
   description: Beats collectors for Linux (based on template of Robin Clarke, Jakob Reiter, Dale McDiarmid)
-  company: "Elastic.co"
+  company: "AntSec B.V."
   license: "license (Apache)"
   min_ansible_version: 2.3.2
   platforms:
