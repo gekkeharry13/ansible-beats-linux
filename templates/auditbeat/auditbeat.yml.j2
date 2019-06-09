@@ -319,7 +319,8 @@ auditbeat.modules:
     -a exit,always -F arch=b64 -F euid=0 -S execve -k rootcmd
     -a exit,always -F arch=b32 -F euid=0 -S execve -k rootcmd
     -a exit,always -F arch=b32 -F euid>=1000 -S execve -k usercmd
-    -a exit,always -F arch=b32 -F euid>=1000 -S execve -k usercmd
+    -a exit,always -F arch=b64 -F euid>=1000 -S execve -k usercmd
+    
 {% endif %}
 
 {% if "file_integrity" in ab_modules %}
