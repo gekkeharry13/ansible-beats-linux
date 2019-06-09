@@ -178,7 +178,7 @@ auditbeat.modules:
     -w /etc/sysconfig/network -p wa -k network_modifications
     -w /etc/network/ -p wa -k network
     -a always,exit -F dir=/etc/NetworkManager/ -F perm=wa -k network_modifications
-    
+
     ### Changes to issue
     -w /etc/issue -p wa -k etcissue
     -w /etc/issue.net -p wa -k etcissue
@@ -314,6 +314,12 @@ auditbeat.modules:
     ## Privilege Abuse
     ### The purpose of this rule is to detect when an admin may be abusing power by looking in user's home dir.
     -a always,exit -F dir=/home -F uid=0 -F auid>=1000 -F auid!=4294967295 -C auid!=obj_uid -k power_abuse
+
+    ## Root and user command executions 
+    -a exit,always -F arch=b64 -F euid=0 -S execve -k rootcmd
+    -a exit,always -F arch=b32 -F euid=0 -S execve -k rootcmd
+    -a exit,always -F arch=b32 -F euid>=1000 -S execve -k usercmd
+    -a exit,always -F arch=b32 -F euid>=1000 -S execve -k usercmd
 {% endif %}
 
 {% if "file_integrity" in ab_modules %}
