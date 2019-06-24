@@ -20,6 +20,7 @@ Configure the default settings in your playbook:
       - "filebeat"
       - "packetbeat"
       - "metricbeat"
+      - "auditbeat"
     mb_version_lock: true 
     mb_upgrade: false
     mb_major_version: "7.x"
@@ -37,6 +38,10 @@ Configure the default settings in your playbook:
     pb_upgrade: false
     pb_major_version: "7.x"
     pb_version: "7.0.1"
+    ab_version_lock: true
+    ab_upgrade: false
+    ab_major_version: "7.x"
+    ab_version: "7.0.1"
     output:
       type: logstash
       hosts:

@@ -10,7 +10,7 @@ packetbeat.flows:
   # timed out.
   timeout: 30s
   # Configure reporting period. If set to -1, only killed flows will be reported
-  period: 60s
+  period: 900s
 #========================== Transaction protocols =============================
 packetbeat.protocols:
   - type: dns
@@ -28,7 +28,7 @@ packetbeat.protocols:
     # the HTTP protocol by commenting out the list of ports.
     ports: [80, 8080, 8000, 5000, 8002]
   - type: tls
-    ports: [443, 8443]
+    ports: [443, 7443, 8443, 9443]
     send_certificates: true
 #================================ General =====================================
 name: {{ pb_name }}
