@@ -9,21 +9,21 @@
   register: fb_ssl_folder
 
 ### Must also check if hash is correct, because it can be an old certificate
-- name: Verify if Beats collectors cert is present
-  stat:
-    path: "{{ssl_config['directory']}}/{{ beats_customer_id }}.crt"
-  become: true
-  become_user: "{{ fb_user }}"
-  register: fb_ssl_cert_present
-  when: ssl_config is defined
+# - name: Verify if Beats collectors cert is present
+#   stat:
+#     path: "{{ssl_config['directory']}}/{{ beats_customer_id }}.crt"
+#   become: true
+#   become_user: "{{ fb_user }}"
+#   register: fb_ssl_cert_present
+#   when: ssl_config is defined
 
-- name: Verify if Beats collectors key is present
-  stat:
-    path: "{{ssl_config['directory']}}/{{ beats_customer_id }}.key"
-  become: true
-  become_user: "{{ fb_user }}"
-  register: fb_ssl_key_present
-  when: ssl_config is defined
+# - name: Verify if Beats collectors key is present
+#   stat:
+#     path: "{{ssl_config['directory']}}/{{ beats_customer_id }}.key"
+#   become: true
+#   become_user: "{{ fb_user }}"
+#   register: fb_ssl_key_present
+#   when: ssl_config is defined
 
 - name: Copy certificate for Beats collectors
   copy:
@@ -33,8 +33,9 @@
     group: "{{ fb_group }}"
     mode: 0644
   become: true
-  when: not fb_ssl_cert_present.stat.exists
+  # when: not fb_ssl_cert_present.stat.exists
   register: fb_ssl_cert_copied
+  notify: restart filebeat
 
 - name: Copy certificate key for Beats collectors
   copy:
@@ -44,15 +45,16 @@
     group: "{{ fb_group }}"
     mode: 0600
   become: true
-  when: not fb_ssl_key_present.stat.exists
+  # when: not fb_ssl_key_present.stat.exists
   register: fb_ssl_key_copied
+  notify: restart filebeat
 
-- name: Verify if Beats collectors CA cert is present
-  stat:
-    path: "{{ssl_config['cacerts']}}"
-  become: true
-  become_user: "{{ fb_user }}"
-  register: fb_ssl_ca_cert_present
+# - name: Verify if Beats collectors CA cert is present
+#   stat:
+#     path: "{{ssl_config['cacerts']}}"
+#   become: true
+#   become_user: "{{ fb_user }}"
+#   register: fb_ssl_ca_cert_present
 
 - name: Copy CA certificate to ssl folder
   become: true
@@ -62,4 +64,5 @@
     owner: "{{ fb_user }}"
     group: "{{ fb_group }}"
     mode: 0644
-  when: not fb_ssl_ca_cert_present.stat.exists
+  # when: not fb_ssl_ca_cert_present.stat.exists
+  notify: restart filebeat
