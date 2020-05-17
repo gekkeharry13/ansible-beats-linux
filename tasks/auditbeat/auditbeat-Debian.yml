@@ -16,6 +16,9 @@
   become: true
   apt_key: url="{{ ab_apt_key }}" state=present
   when: ab_use_repository and ab_apt_key
+  tags: 
+    - no_apt
+    - always
 
 - name: Auditbeat-Debian - Debian - Add elastic repository
   become: true
@@ -24,6 +27,9 @@
     - { repo: "{{ ab_apt_url_old }}", state: "absent" }
     - { repo: "{{ ab_apt_url }}", state: "present" }
   when: ab_use_repository
+  tags: 
+    - no_apt
+    - always
 
 - name: Auditbeat-Debian - Debian - Remove version lock when upgrading
   include: auditbeat-Debian-version-unlock.yml

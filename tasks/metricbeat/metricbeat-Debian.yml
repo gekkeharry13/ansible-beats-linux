@@ -16,6 +16,9 @@
   become: true
   apt_key: url="{{ mb_apt_key }}" state=present
   when: mb_use_repository and mb_apt_key
+  tags: 
+    - no_apt
+    - always
 
 - name: Metricbeat-Debian - Debian - Add elastic repository
   become: true
@@ -24,6 +27,9 @@
     - { repo: "{{ mb_apt_url_old }}", state: "absent" }
     - { repo: "{{ mb_apt_url }}", state: "present" }
   when: mb_use_repository
+  tags: 
+    - no_apt
+    - always
 
 - name: Metricbeat-Debian - Debian - Remove version lock when upgrading
   include: metricbeat-Debian-version-unlock.yml

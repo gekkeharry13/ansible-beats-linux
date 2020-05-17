@@ -16,6 +16,9 @@
   become: true
   apt_key: url="{{ pb_apt_key }}" state=present
   when: pb_use_repository and pb_apt_key
+  tags: 
+    - no_apt
+    - always
 
 - name: Debian - Add elastic repository
   become: true
@@ -24,6 +27,9 @@
     - { repo: "{{ pb_apt_url_old }}", state: "absent" }
     - { repo: "{{ pb_apt_url }}", state: "present" }
   when: pb_use_repository
+  tags: 
+    - no_apt
+    - always
 
 - name: Debian - Remove version lock when upgrading
   include: packetbeat-Debian-version-unlock.yml

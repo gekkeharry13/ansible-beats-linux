@@ -16,6 +16,9 @@
   become: true
   apt_key: url="{{ fb_apt_key }}" state=present
   when: fb_use_repository and fb_apt_key
+  tags: 
+    - no_apt
+    - always
 
 - name: Debian - Add elastic repository
   become: true
@@ -24,6 +27,9 @@
     - { repo: "{{ fb_apt_url_old }}", state: "absent" }
     - { repo: "{{ fb_apt_url }}", state: "present" }
   when: fb_use_repository
+  tags: 
+    - no_apt
+    - always
 
 - name: Debian - Remove version lock when upgrading
   include: filebeat-Debian-version-unlock.yml
