@@ -2,3 +2,6 @@
   apt:
     name: aptitude
     state: present
+  tags: 
+    - no_apt
+    - always
