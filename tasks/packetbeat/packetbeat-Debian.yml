@@ -35,6 +35,9 @@
   when: pb_use_repository
   register: debian_packetbeat_install_from_repo
   notify: restart packetbeat
+  tag: 
+    - no_es_apt
+    - always
 
 - name: Debian - Include versionlock
   include: packetbeat-Debian-version-lock.yml

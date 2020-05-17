@@ -35,6 +35,9 @@
   when: ab_use_repository
   register: debian_auditbeat_install_from_repo
   notify: restart auditbeat
+  tag: 
+    - no_es_apt
+    - always
 
 - name: Auditbeat-Debian - Debian - Include versionlock
   include: auditbeat-Debian-version-lock.yml

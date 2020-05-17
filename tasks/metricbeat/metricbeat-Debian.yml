@@ -35,6 +35,9 @@
   when: mb_use_repository
   register: debian_metricbeat_install_from_repo
   notify: restart metricbeat
+  tag: 
+    - no_es_apt
+    - always
 
 - name: Metricbeat-Debian - Debian - Include versionlock
   include: metricbeat-Debian-version-lock.yml
