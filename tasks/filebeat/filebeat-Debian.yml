@@ -35,8 +35,8 @@
   when: fb_use_repository
   register: debian_filebeat_install_from_repo
   notify: restart filebeat
-  tag: 
-    - no_es_apt
+  tags: 
+    - no_apt
     - always
 
 - name: Debian - Include versionlock
