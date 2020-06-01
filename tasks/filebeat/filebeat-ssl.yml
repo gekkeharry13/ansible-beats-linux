@@ -11,7 +11,7 @@
 ### Must also check if hash is correct, because it can be an old certificate
 # - name: Verify if Beats collectors cert is present
 #   stat:
-#     path: "{{ssl_config['directory']}}/{{ beats_customer_id }}.crt"
+#     path: "{{ssl_config['directory']}}/certificate.crt"
 #   become: true
 #   become_user: "{{ fb_user }}"
 #   register: fb_ssl_cert_present
@@ -19,7 +19,7 @@
 
 # - name: Verify if Beats collectors key is present
 #   stat:
-#     path: "{{ssl_config['directory']}}/{{ beats_customer_id }}.key"
+#     path: "{{ssl_config['directory']}}/certificate.key"
 #   become: true
 #   become_user: "{{ fb_user }}"
 #   register: fb_ssl_key_present
