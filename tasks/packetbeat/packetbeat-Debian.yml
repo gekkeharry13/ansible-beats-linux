@@ -18,7 +18,6 @@
   when: pb_use_repository and pb_apt_key
   tags: 
     - no_apt
-    - always
 
 - name: Debian - Add elastic repository
   become: true
@@ -29,7 +28,6 @@
   when: pb_use_repository
   tags: 
     - no_apt
-    - always
 
 - name: Debian - Remove version lock when upgrading
   include: packetbeat-Debian-version-unlock.yml
@@ -43,7 +41,6 @@
   notify: restart packetbeat
   tags: 
     - no_apt
-    - always
 
 - name: Debian - Include versionlock
   include: packetbeat-Debian-version-lock.yml
