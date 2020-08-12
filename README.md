@@ -21,27 +21,31 @@ Configure the default settings in your playbook:
       - "packetbeat"
       - "metricbeat"
       - "auditbeat"
+    mb_name: {{ beats_customer_id }}
     mb_version_lock: true 
     mb_upgrade: false
     mb_major_version: "7.x"
-    mb_version: "7.0.1"
+    mb_version: "7.4.2"
     mb_modules:
       - "system"
+    fb_name: {{ beats_customer_id }}
     fb_version_lock: true
     fb_upgrade: false
     fb_major_version: "7.x"
-    fb_version: "7.0.1"
+    fb_version: "7.4.2"
     fb_system:
       enable_syslog: true
       enable_auth: true
+    pb_name: {{ beats_customer_id }}
     pb_version_lock: true
     pb_upgrade: false
     pb_major_version: "7.x"
-    pb_version: "7.0.1"
+    pb_version: "7.4.2"
+    ab_name: {{ beats_customer_id }}
     ab_version_lock: true
     ab_upgrade: false
     ab_major_version: "7.x"
-    ab_version: "7.0.1"
+    ab_version: "7.4.2"
     output:
       type: logstash
       hosts:
@@ -50,8 +54,8 @@ Configure the default settings in your playbook:
       directory: "/etc/ssl/as-collectors"
       verification_mode: full
       supported_protocols: TLSv1.2
-      cert: "beats-ssl/{{ beats_customer_id }}.crt"
-      key: "beats-ssl/{{ beats_customer_id }}.key"
+      cert: "beats-ssl/certificate.crt"
+      key: "beats-ssl/certificate.key"
       cacerts: "beats-ssl/antsec.cacerts"
     tags: 
       - deploy_collectors

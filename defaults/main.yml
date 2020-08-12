@@ -5,7 +5,7 @@ enabled_collectors:
       - "metricbeat"
 
 fb_major_version: "7.x"
-fb_version: "7.0.1"
+fb_version: "7.4.2"
 fb_version_lock: false
 fb_use_repository: true
 fb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
@@ -29,7 +29,7 @@ fb_docker_input: false
 fb_kubernetes_metadata: false
 
 pb_major_version: "7.x"
-pb_version: "7.0.1"
+pb_version: "7.4.2"
 pb_version_lock: false
 pb_use_repository: true
 pb_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
@@ -51,7 +51,7 @@ pb_allow_downgrades: false
 pb_name: "collector"
 
 mb_major_version: "7.x"
-mb_version: "7.0.1"
+mb_version: "7.4.2"
 mb_version_lock: false
 mb_upgrade: false
 mb_use_repository: true
@@ -74,7 +74,7 @@ mb_allow_downgrades: false
 mb_name: "collector"
 
 ab_major_version: "7.x"
-ab_version: "7.0.1"
+ab_version: "7.4.2"
 ab_version_lock: false
 ab_upgrade: false
 ab_use_repository: true
