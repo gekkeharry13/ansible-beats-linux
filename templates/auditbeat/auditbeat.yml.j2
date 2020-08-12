@@ -24,7 +24,7 @@ auditeat.config.modules:
 
 auditbeat.modules:
 #------------------------------- Auditd Module -------------------------------
-{% if "auditd" in ab_modules %}
+{% if ab_modules is defined and "auditd" in ab_modules %}
 - module: auditd
   audit_rules: |
     # Things that affect identity.
@@ -323,7 +323,7 @@ auditbeat.modules:
     
 {% endif %}
 
-{% if "file_integrity" in ab_modules %}
+{% if ab_modules is defined and "file_integrity" in ab_modules %}
 - module: file_integrity
   paths:
     - /bin

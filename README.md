@@ -46,6 +46,9 @@ Configure the default settings in your playbook:
     ab_upgrade: false
     ab_major_version: "7.x"
     ab_version: "7.4.2"
+    ab_modules:
+      - "auditd"
+      - "file_integrity"
     output:
       type: logstash
       hosts:
