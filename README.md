@@ -8,9 +8,10 @@
 This is the AntSec Ansible role for 7.x beats.  Currently this works on Debian based linux systems.  Tested platforms are:
 
 * Debian 9
+* Ubuntu 18.04.3 LTS
 
 ** Using the role **
-Place the received configuration in a folder (in this example "beats-ssl"). Do Not change the names of these files
+Place the received certificates in a folder (in this example "beats-ssl"). Do not change the names of these files
 Configure the default settings in your playbook:
 
 ```
