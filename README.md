@@ -1,16 +1,21 @@
-# ansible-beats-linux
+# Thank you
+We are glad to see you are installing our collectors. This is the AntSec Ansible role for the installation of our collectors. 
 
-**AntSec Collector Pack**
+If you have any questions, feel free to contact us through your known channels.
 
-**THIS ROLE IS FOR 7.x**
+For those who come across this page and don't know what it is for. Visit https://www.antsec.io
 
-**If you encounter unexpected behaviour, please contact us**
-This is the AntSec Ansible role for 7.x beats.  Currently this works on Debian based linux systems.  Tested platforms are:
+# Support
+If you are unsure of anything we are here to help. Contact us and we will aid you through the process of installing the collectors.
+
+This installer provides a basic configuration out of the box, which might not suit your needs. Feel free to contact us for further configuration.
+
+Currently this works on Debian based linux systems. Tested platforms are:
 
 * Debian 9
 * Ubuntu 18.04.3 LTS
 
-** Using the role **
+# Installation
 Place the received certificates in a folder (in this example "beats-ssl"). Do not change the names of these files
 Configure the default settings in your playbook:
 
@@ -65,4 +70,5 @@ Configure the default settings in your playbook:
       - deploy_collectors
 ```
 
-If you require a specific configuration, please contact us.
+# Responsible Disclosure
+If you come across any (possible) vulnerabilities or have any security considerations, please contact us at security@antsec.io
